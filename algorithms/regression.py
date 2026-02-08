@@ -1,6 +1,6 @@
 import numpy as np
 
-class Regression:
+class LinearRegression:
     def __init__(self, lr=0.01, n_iterations=1000):
         self.lr = lr
         self.n_iterations = n_iterations
@@ -28,12 +28,12 @@ class Regression:
         return self.weights, self.bias
 
     def test(self):
-        regression = Regression(lr=0.01, n_iterations=1000)
+        regression = LinearRegression(lr=0.01, n_iterations=1000)
         X = np.array([[1,2,3],[2,4,6],[3,6,9],[4,8,12]])
         y = np.array([1,2,3,4])
         regression.fit(X,y)
         print(regression.get_params())
         print(regression.predict(np.array([[7,10,14]])))
 
-regressor = Regression()
-regressor.test()
+# regressor = Regression()
+# regressor.test()

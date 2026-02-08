@@ -1,4 +1,3 @@
-from enum import unique
 import numpy as np
 import pandas as pd
 
@@ -17,17 +16,18 @@ def load_data(file_path):
         raise ValueError(f"Unsupported file type: {file_path}")
 
 def shuffle_data(X, y, seed = 42):
-    np.random.seed(seed)
+    # No need to set the seed, function uses random seed if not specified.
+    np.random.seed()
     indices = np.arange(len(X))
     np.random.shuffle(indices)
     return X[indices], y[indices]
 
-def train_test_split(X, y, test_size = 0.2, val_size = 0, shuffle = True):
+def train_test_split(X, y, test_size = 0.2, shuffle = True):
     if shuffle:
         X, y = shuffle_data(X, y)
-    if test_size + val_size >= 1:
-        raise ValueError("test_size + val_size must be less than 1")
-    split_index = len(y) - int((test_size + val_size) * (len(y)))
+    if test_size >= 1:
+        raise ValueError("test_size must be less than 1")
+    split_index = len(y) - int((test_size) * (len(y)))
     X_train, X_test = X[:split_index], X[split_index:]
     y_train, y_test = y[:split_index], y[split_index:]
 
@@ -49,5 +49,3 @@ def one_hot_encoding(X):
     one_hot_encoded = np.zeros(X.size, unique_labels)
     one_hot_encoded[np.arange(X.size), X] = 1
 
-
-test = np.array([0, 1, 2, 1, 0, 2])

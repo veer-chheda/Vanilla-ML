@@ -1,3 +1,6 @@
 /venv
 .specstory
 .cursorindexingignore
+/build
+**__pycache__**
+*egg-info*

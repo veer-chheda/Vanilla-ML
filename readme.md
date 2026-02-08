@@ -11,8 +11,8 @@
 ## Existing repos/blogs/resources that share the goal:
  - https://github.com/gmontamat/poor-mans-transformers (very good reference resource)
 	- has documented everything for future reference.
- - https://github.com/eriklindernoren/ML-From-Scratch (god resource, follow this)
-	-has covered everything from simple regression to deep Q learning and GANs
+ - https://github.com/eriklindernoren/ML-From-Scratch (god resource, follow this)   
+	- has covered everything from simple regression to deep Q learning and GANs
  - https://dafriedman97.github.io/mlbook/content/introduction.html
 
 
