@@ -10,3 +10,4 @@ pillow==12.1.0
 pyparsing==3.3.2
 python-dateutil==2.9.0.post0
 six==1.17.0
+-e git+https://github.com/veer-chheda/Vanilla-ML.git@136b14a21474d9521350c0cd30dc41d180fdbb21#egg=vanillaml

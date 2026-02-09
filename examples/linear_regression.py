@@ -1,7 +1,7 @@
 from vanillaml.utils import load_data, standardize, normalize, one_hot_encoding, train_test_split
 import pandas as pd
-from vanillaml.algorithms import LinearRegression
-from vanillaml.utils import MSE, MAE, RMSE
+from vanillaml.math import MSE, MAE, RMSE
+from vanillaml.algorithms import LinearRegression, PCA
 import numpy as np
 
 data = load_data('datasets/Boston.csv')
@@ -32,3 +32,15 @@ rmse = RMSE(y_test, y_predict)
 print(mse, mae, rmse)
 
 
+# Linear Regression on reduced dataset using PCA
+pca = PCA()
+X_pca = pca(X, dims=10)
+X_train, X_test, y_train, y_test = train_test_split(X_pca, y, test_size=0.15)
+regression = LinearRegression(lr=0.001, n_iterations=1000)
+regression.fit(X_train, y_train)
+y_predict = regression.predict(X_test)
+mse = MSE(y_test, y_predict)
+mae = MAE(y_test, y_predict)
+rmse = RMSE(y_test, y_predict)
+
+print(mse, mae, rmse)
