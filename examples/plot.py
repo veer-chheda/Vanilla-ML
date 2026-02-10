@@ -9,4 +9,4 @@ y_df = data['medv']
 X = X_df.to_numpy().astype(np.float64)
 y = y_df.to_numpy().astype(np.float64)
 
-plot_linear_regression(X, y, dim=2)
+plot_linear_regression(X, y, dim=3)

@@ -1,4 +1,6 @@
 import numpy as np
+import math 
+from vanillaml.math import sigmoid
 
 class LinearRegression:
     def __init__(self, lr=0.01, n_iterations=1000):
@@ -37,3 +39,43 @@ class LinearRegression:
 
 # regressor = Regression()
 # regressor.test()
+
+class LogisticRegression:
+    def __init__(self, lr=0.01, n_iterations=1000):
+        self.lr = lr
+        self.n_iterations = n_iterations
+        self.weights = None
+        self.bias = None
+
+    def fit(self, X, y):
+        n_samples, n_features = X.shape
+        self.weights = np.zeros(n_features)
+        self.bias = 0
+
+        for _ in range (self.n_iterations):
+            y_hat = np.dot(X, self.weights) + self.bias
+            y_pred = sigmoid(y_hat)
+            dw = (1/n_samples) * np.dot(X.T, y_pred - y)
+            db = (1/n_samples) * np.sum(y_pred - y)
+            self.weights -= self.lr * dw
+            self.bias -= self.lr * db
+        return self
+
+    def get_params(self):
+        return self.weights, self.bias
+    
+    def predict(self, X):
+        y_hat = np.dot(X, self.weights) + self.bias
+        return np.round(sigmoid(y_hat)).astype(int)
+
+    def test(self):
+        regression = LogisticRegression(lr=0.01, n_iterations=1000)
+        X = np.array([[1,2,3],[2,4,6],[3,6,9],[4,8,12]])
+        y = np.array([1,0,1,1])
+        regression.fit(X,y)
+        print(regression.get_params())
+        print(regression.predict(np.array([[7,10,14]])))
+        
+
+logi = LogisticRegression(lr=0.01, n_iterations=1000)
+logi.test()
