@@ -9,4 +9,3 @@ def MAE(y_test, y_pred):
 
 def RMSE(y_test, y_pred):
     return np.sqrt(MSE(y_test, y_pred))
-
