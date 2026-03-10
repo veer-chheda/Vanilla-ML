@@ -1,3 +1,5 @@
+EDIT: Instead of daily notes, I am going to take topic-wise notes.
+
 Started with decision trees today! I found resources on the theory of decision trees but I am having trouble with implementing the theory. So I googled some resources on "decision trees from scratch" and found a couple of notebooks (I will attach links at the bottom). Every one has implemented it on their own but after reading what I understand is:
  - I need to calculate entropy for a node, where entropy = $$-\sum_{i=1} ^ {n} (p_i * log_2p_i)$$
  - Calculate information gain for a parent node having left and right children nodes, where  
@@ -6,6 +8,18 @@ Started with decision trees today! I found resources on the theory of decision t
  - The decision tree will have a max depth and a minimum sample split as the stopping criteria.   
 
  So far I have implemented this. I need to complete the best sample split function and then start building the tree, fitting and prediction.
+
+10/3/26
+I finished the best split finder function. 
+ - For each column (feature), I need to iterate over all the unique values. 
+ - For each unique value, I will assume it to be the threshold as the parent node and check the information gain for all the values to the left (more) and right (less) of this node. If information gain is more than before, I will use that threshold as the splitting value.  
+
+To build the tree:
+ - Check if the max_depth has reached or the min_samples_split for the parent node has reached. 
+     * If yes: 
+        * return the leaf node with the most common label at that particular split
+     * else:
+        * return the splitting internal node.
 
 
 
