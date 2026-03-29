@@ -9,3 +9,7 @@ def MAE(y_test, y_pred):
 
 def RMSE(y_test, y_pred):
     return np.sqrt(MSE(y_test, y_pred))
+
+def accuracy(y_test, y_pred):
+    return np.sum(y_test==y_pred, axis=0) / len(y_test)
+    

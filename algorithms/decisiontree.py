@@ -1,18 +1,17 @@
 import numpy as np
 
 class Node:
-    def __init__(self, feature, left, right, threshold, information_gain, type='internal', pred=None):
+    def __init__(self, feature=None, left=None, right=None, threshold=None, information_gain=None, type='internal', pred=None):
         self.feature = feature
         self.left = left
         self.right = right
         self.information_gain = information_gain
         self.threshold = threshold
         self.type = type
-        if type != 'internal':
-            self.pred = pred
+        self.pred = pred
 
 class DecisionTree:
-    def __init__(self, max_depth, min_samples_split):
+    def __init__(self, max_depth=5, min_samples_split=2):
         self.max_depth = max_depth
         self.min_samples_split = min_samples_split
         self.root = None
@@ -22,7 +21,7 @@ class DecisionTree:
         probs = counts / X.shape[0]
         entropy = 0
         for i in probs:
-            if probs > 0:
+            if i > 0:
                 entropy += i * np.log2(i)
         return -entropy
 
@@ -33,24 +32,22 @@ class DecisionTree:
 
     def _best_split(self, X, y):
         best_split = {}
-        max_information_gain = -1e6
+        max_information_gain = -1
         for i in range(X.shape[1]):
             X_i = X[:, i]
-            for threshold in np.unique(X_i):
-                left = [k for k in X if k[i] <= threshold]
-                left_y = [k for k in y if k[i] <= threshold]
-                right = [k for k in X if k[i] > threshold]
-                right_y = [k for k in y if k[i] > threshold]
+            for threshold in X_i:
+                left = X[:, i] <= threshold
+                right = X[:, i] > threshold
                 if len(left) > 0 and len(right) > 0:
-                    information_gain = self._information_gain(y, left_y, right_y)
+                    information_gain = self._information_gain(y, y[left], y[right])
                     if information_gain > max_information_gain:
                         best_split = {
                             'feature': i,
                             'threshold': threshold,
-                            'left': left,
-                            'left_y': left_y,
-                            'right': right,
-                            'right_y': right_y,
+                            'left': X[left],
+                            'left_y': y[left],
+                            'right': X[right],
+                            'right_y': y[right],
                             'information_gain': information_gain
                         }
                         max_information_gain = information_gain
@@ -58,7 +55,7 @@ class DecisionTree:
 
     def _build_tree(self, X, y, depth=0):
         n, m = X.shape
-        if n >= self.min_samples_split and m <= self.max_depth:
+        if n >= self.min_samples_split and depth <= self.max_depth:
             best_split = self._best_split(X, y)
             if best_split['information_gain'] > 0:
                 left = self._build_tree(best_split['left'], best_split['left_y'], depth+1)
@@ -68,3 +65,22 @@ class DecisionTree:
 
         labels = np.bincount(y)
         return Node(type='leaf', pred=np.argmax(labels))
+
+    def fit(self, X, y):
+        self.root = self._build_tree(X, y)
+
+    def _predict(self, X, tree):
+        if tree.pred != None:
+            return tree.pred
+        feature = X[tree.feature]
+        if feature >= tree.threshold:
+            return self._predict(X=X, tree = tree.right)
+        else:
+            return self._predict(X=X, tree=tree.left)
+
+    def predict(self, X):
+        preds = []
+        for i in X:
+            val = self._predict(i, self.root)
+            preds.append(val)
+        return preds

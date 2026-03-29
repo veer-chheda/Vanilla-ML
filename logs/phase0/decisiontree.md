@@ -19,7 +19,13 @@ To build the tree:
      * If yes: 
         * return the leaf node with the most common label at that particular split
      * else:
-        * return the splitting internal node.
+        * return the splitting internal node.  
+
+After building the tree, prediction is an easy task. Make a recursive call to a function which checks the value of the current node (starting with root). 
+ - If the node contains any value (a leaf node), return the value.
+ - Else:
+      * If the feature value for the internal node is less than the node threshold, traverse left.
+      * Else traverse right.
 
 
 

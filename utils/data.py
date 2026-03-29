@@ -45,7 +45,12 @@ def normalize(X):
     return X_normalized
 
 def one_hot_encoding(X):
-    unique_labels = len(np.unique(X))
-    one_hot_encoded = np.zeros(X.size, unique_labels)
-    one_hot_encoded[np.arange(X.size), X] = 1
+    unique_labels, inverse = np.unique(X, return_inverse=True)
+    num_classes = len(unique_labels)
+    one_hot_encoded = np.zeros((X.size, num_classes))
+    one_hot_encoded[np.arange(X.size), inverse] = 1
+    return one_hot_encoded, unique_labels
 
+
+def convert_categorical(X, unique_labels):
+    return unique_labels[np.argmax(X, axis=1)]

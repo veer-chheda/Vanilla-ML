@@ -77,5 +77,5 @@ class LogisticRegression:
         print(regression.predict(np.array([[7,10,14]])))
         
 
-logi = LogisticRegression(lr=0.01, n_iterations=1000)
-logi.test()
+# logi = LogisticRegression(lr=0.01, n_iterations=1000)
+# logi.test()
