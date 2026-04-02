@@ -1,6 +1,6 @@
 EDIT: Instead of daily notes, I am going to take topic-wise notes.
 
-Started with decision trees today! I found resources on the theory of decision trees but I am having trouble with implementing the theory. So I googled some resources on "decision trees from scratch" and found a couple of notebooks (I will attach links at the bottom). Every one has implemented it on their own but after reading what I understand is:
+Started with decision trees today! I found resources on the theory of decision trees but I am having trouble with implementing the theory. So I googled some resources on "decision trees from scratch" and found a couple of notebooks (I will attach links at the bottom). Each of them has implemented it on their own but after reading what I understand is:
  - I need to calculate entropy for a node, where entropy = $$-\sum_{i=1} ^ {n} (p_i * log_2p_i)$$
  - Calculate information gain for a parent node having left and right children nodes, where  
     $$IG(parent) = entropy(parent) - \frac{n_{left}}{n_{parent}} * entropy(left) - \frac{n_{right}}{n_{parent}} * entropy(right)$$

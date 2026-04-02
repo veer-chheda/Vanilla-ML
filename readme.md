@@ -25,7 +25,7 @@ Phase 1
 Classic ML algorithms (kNN, Naive Bayes, SVM, Decision Trees, Random Forests, k-means, PCA)
 
 Phase 2   
-Neural networks (without autogrid, backdrop by hand), dense layers, activation functions (ReLU, sigmoid, tanh), losses
+Neural networks (without autograd, backdrop by hand), dense layers, activation functions (ReLU, sigmoid, tanh), losses
 
 Phase 3   
 Computation graph, automatic gradient propagation (tensor abstraction, operations and engine)
