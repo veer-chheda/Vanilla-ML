@@ -12,6 +12,7 @@ The objective function is to maximise this margin $\frac{2}{\|w\|}$, which is th
 \min \frac{1}{2} \|w\|^2
 ```
 subject to the constraint $y \cdot (wx + b) \geq 1$.  
+
 The cost function effectively becomes,
 ```math
 J(w) = \frac{1}{2} \|w\|^2 + \max(0, 1 - y(wx - b))
@@ -19,13 +20,15 @@ J(w) = \frac{1}{2} \|w\|^2 + \max(0, 1 - y(wx - b))
 The function has two modes according to the following cases:
 * Point is correctly classified i.e, is outside the margin:
     Loss from the point is 0 as $y \cdot (wx + b) \geq 1$. Only minimisation left is the regularisation term:
-    $\frac{\partial J}{\partial w} = w$
-    As the derivative doesn't include $x$, this condition introduces sparsity by weight shrinking.
+```math
+    \frac{\partial J}{\partial w} = w 
+```
+As the derivative doesn't include $x$, this condition introduces sparsity by weight shrinking.
 * Point is classified incorrectly i.e. inside the margin:
     The point margin is $y \cdot (wx + b) < 1$. Hence, the derivative becomes:
-    ```math
-        \frac{\partial J}{\partial w} = w - y . x
-    ```
+```math
+    \frac{\partial J}{\partial w} = w - y . x
+```
 This is the primal form of SVM. The loss function is a combination of hinge loss and L2 regularisation.
 ```math
 L = \lambda \|w\|^2 + \sum_{i=1}^N \max(0, 1 - y_i(wx_i + b))
