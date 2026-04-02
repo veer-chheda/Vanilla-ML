@@ -1,4 +1,4 @@
-To fix the rendering while keeping your text exactly the same, I have applied standard GitHub-flavored Markdown formatting to the math blocks. Specifically, I added necessary line breaks and corrected the norm notation (which often fails if the double pipes aren't escaped or formatted correctly in certain environments).Support Vector Machines are supervised algorithms that have the objective of finding the best separating hyperplane. The distance from the hyperplane to the nearest support vectors is maximised. Support vectors are the lines that pass through the closest points to the hyperplane such that the distance i.e. margin is maximum. SVMs use kernels for projecting data into a higher space to handle non-linear data.The goal is to find a hyperplane defined by $wx - b = 0$ where,
+Support Vector Machines are supervised algorithms that have the objective of finding the best separating hyperplane. The distance from the hyperplane to the nearest support vectors is maximised. Support vectors are the lines that pass through the closest points to the hyperplane such that the distance i.e. margin is maximum. SVMs use kernels for projecting data into a higher space to handle non-linear data.The goal is to find a hyperplane defined by $wx - b = 0$ where,
 ```math
 y = 
 \begin{cases} 
@@ -19,9 +19,9 @@ J(w) = \frac{1}{2} \|w\|^2 + \max(0, 1 - y(wx - b))
 The function has two modes according to the following cases:
 * Point is correctly classified i.e, is outside the margin:
     Loss from the point is 0 as $y \cdot (wx + b) \geq 1$. Only minimisation left is the regularisation term:
-    ```math
-    $\frac{\partial J}{\partial w} = w$
-    ```
+    $$
+    \frac{\partial J}{\partial w} = w
+    $$
     As the derivative doesn't include $x$, this condition introduces sparsity by weight shrinking.
 * Point is classified incorrectly i.e. inside the margin:
     The point margin is $y \cdot (wx + b) < 1$. Hence, the derivative becomes:
