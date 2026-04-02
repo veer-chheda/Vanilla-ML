@@ -19,9 +19,7 @@ J(w) = \frac{1}{2} \|w\|^2 + \max(0, 1 - y(wx - b))
 The function has two modes according to the following cases:
 * Point is correctly classified i.e, is outside the margin:
     Loss from the point is 0 as $y \cdot (wx + b) \geq 1$. Only minimisation left is the regularisation term:
-    $$
-    \frac{\partial J}{\partial w} = w
-    $$
+    $\frac{\partial J}{\partial w} = w$
     As the derivative doesn't include $x$, this condition introduces sparsity by weight shrinking.
 * Point is classified incorrectly i.e. inside the margin:
     The point margin is $y \cdot (wx + b) < 1$. Hence, the derivative becomes:
