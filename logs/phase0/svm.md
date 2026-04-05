@@ -74,7 +74,7 @@ Since, the actual data is only present in the form of $x_i^T x_j$, SVMs are memo
 So in practical examples, people generally use Quadratic Programming to solve this problem.
 A QP solver expects an optimization problem of this form:
 ```math
-\text{Minimise: } \frac{1}{2} \alpha^T P \alpha + q^T \alpha \\
+\text{Minimise: } \frac{1}{2} \alpha^T P \alpha + q^T \alpha \text{\\}
 \text{Subject to: } G \alpha \leq h \text{ and }  A \alpha = b
 ```
 In our case the objective is:
