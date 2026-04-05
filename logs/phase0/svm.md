@@ -55,11 +55,13 @@ Therefore, to find the optimal conditions, we differentiate this equation,
 
 We can rewrite the Langrangian equation as:
 ```math
+\begin{gather}
 L \left(w, b, \alpha \right) = \frac{1}{2} w^T w - \sum_{i=1}^N \alpha_i y_i w^T x_i - \sum_{i=1}^N \alpha_i y_i b + \sum_{i=1}^N \alpha_i \\
 = \frac{1}{2} w^T w - \sum_{i=1}^N \alpha_i y_i w^T x_i - b \sum_{i=1}^N \alpha_i y_i  + \sum_{i=1}^N \alpha_i \\
 = \frac{1}{2} \left( \sum_{i=1}^N \alpha_i y_i \ x_i \right)^T \left( \sum_{j=1}^N \alpha_j y_j \ x_j \right) - \sum_{i=1}^N \alpha_i y_i \left( \sum_{j=1}^N \alpha_j y_j \ x_j \right)^T x_i - 0 + \sum_{i=1}^N \alpha_i \\
 = \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j x_i^T x_j - \sum_{i=1}^N \sum_{j=1}^N  \alpha_i \alpha_j y_i y_j x_i x_j^T + \sum_{i=1}^N \alpha_i \\
-W \left(\alpha \right) = \sum_{i=1}^N \alpha_i - \sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j x_i^T x_j \\
+W \left(\alpha \right) = \sum_{i=1}^N \alpha_i - \sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j x_i^T x_j 
+\end{gather}
 ```
 
 To solve this dual problem, the solution should satisfy the Karush-Kuhn-Tucker conditions, which in our case is $\alpha_i \left[y_i \left(w^Tx_i + b - 1 \right) \right] = 0$.
@@ -69,19 +71,23 @@ To solve this dual problem, the solution should satisfy the Karush-Kuhn-Tucker c
 Since, the actual data is only present in the form of $x_i^T x_j$, SVMs are memory efficient and this expression can be replaced with a Kernel Function.
 * Linear: $K(x_i, x_j) = x_i^T x_j$
 * Polynomial: $K(x_i, x_j) = (x_i^T x_j + c)^d$
-* Radial Basis Function (Gaussian): $K(x_i, x_j) = \exp{(-\gamma \|x_i - x_j\|^2)}
+* Radial Basis Function (Gaussian): $K(x_i, x_j) = \exp{(-\gamma \|x_i - x_j\|^2)}$
 
 So in practical examples, people generally use Quadratic Programming to solve this problem.
 A QP solver expects an optimization problem of this form:
 ```math
-\text{Minimise: } \frac{1}{2} \alpha^T P \alpha + q^T \alpha \text{\\}
+\begin{gather}
+\text{Minimise: } \frac{1}{2} \alpha^T P \alpha + q^T \alpha \\
 \text{Subject to: } G \alpha \leq h \text{ and }  A \alpha = b
+\end{gather}
 ```
 In our case the objective is:
 ```math
+\begin{gather}
 \text{Maximise: } \sum_{i=1}^N \alpha_i - \sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j x_i^T x_j \\
 \text{OR} \\ 
-\text{Minimise: }\sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j x_i^T x_j - \sum_{i=1}^N \alpha_i \\
+\text{Minimise: }\sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j x_i^T x_j - \sum_{i=1}^N \alpha_i 
+\end{gather}
 ```
 
 The substitutions to be made to fit the QP form are:
