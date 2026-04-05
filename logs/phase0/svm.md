@@ -43,28 +43,28 @@ L \left(w, b, \alpha \right) = \frac{1}{2} \|w\|^2 + \sum_{i=1}^N \alpha_i \left
 ```
 Therefore, to find the optimal conditions, we differentiate this equation,
 * With respect to $w$:
-    ```math
-        \frac{\partial L}{\partial w} = w - \sum_{i=1}^N \alpha_i y_i \ x_i \\
-        w = \sum_{i=1}^N \alpha_i y_i \ x_i 
-    ```
+```math
+    \frac{\partial L}{\partial w} = w - \sum_{i=1}^N \alpha_i y_i \ x_i \\
+    w = \sum_{i=1}^N \alpha_i y_i \ x_i 
+```
 * With respect to $b$:
-    ```math
-        \frac{\partial L}{\partial b} = - \sum_{i=1}^N \alpha_i y_i = 0 \\
-        \sum_{i=1}^N \alpha_i y_i = 0
-    ```
+```math
+    \frac{\partial L}{\partial b} = - \sum_{i=1}^N \alpha_i y_i = 0 \\
+    \sum_{i=1}^N \alpha_i y_i = 0
+```
 
 We can rewrite the Langrangian equation as:
-$$
+```math
 L \left(w, b, \alpha \right) = \frac{1}{2} w^T w - \sum_{i=1}^N \alpha_i y_i w^T x_i - \sum_{i=1}^N \alpha_i y_i b + \sum_{i=1}^N \alpha_i \\
 = \frac{1}{2} w^T w - \sum_{i=1}^N \alpha_i y_i w^T x_i - b \sum_{i=1}^N \alpha_i y_i  + \sum_{i=1}^N \alpha_i \\
 = \frac{1}{2} \left( \sum_{i=1}^N \alpha_i y_i \ x_i \right)^T \left( \sum_{j=1}^N \alpha_j y_j \ x_j \right) - \sum_{i=1}^N \alpha_i y_i \left( \sum_{j=1}^N \alpha_j y_j \ x_j \right)^T x_i - 0 + \sum_{i=1}^N \alpha_i \\
 = \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j x_i^T x_j - \sum_{i=1}^N \sum_{j=1}^N  \alpha_i \alpha_j y_i y_j x_i x_j^T + \sum_{i=1}^N \alpha_i \\
 W \left(\alpha \right) = \sum_{i=1}^N \alpha_i - \sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j x_i^T x_j \\
-$$
+```
 
 To solve this dual problem, the solution should satisfy the Karush-Kuhn-Tucker conditions, which in our case is $\alpha_i \left[y_i \left(w^Tx_i + b - 1 \right) \right] = 0$.
 * If $\alpha_i = 0$, then the point must lie outside the margin.
-* If $alpha_i > 0$, then \left[y_i \left(w^Tx_i + b - 1 \right) \right]$ = 0, meaning point lies exactly on the margin.
+* If $alpha_i > 0$, then $\left[y_i \left(w^Tx_i + b - 1 \right) \right]$ = 0, meaning point lies exactly on the margin.
 
 Since, the actual data is only present in the form of $x_i^T x_j$, SVMs are memory efficient and this expression can be replaced with a Kernel Function.
 * Linear: $K(x_i, x_j) = x_i^T x_j$
@@ -73,22 +73,22 @@ Since, the actual data is only present in the form of $x_i^T x_j$, SVMs are memo
 
 So in practical examples, people generally use Quadratic Programming to solve this problem.
 A QP solver expects an optimization problem of this form:
-$$
+```math
 \text{Minimise: } \frac{1}{2} \alpha^T P \alpha + q^T \alpha \\
 \text{Subject to: } G \alpha \leq h \text{ and }  A \alpha = b
-$$
+```
 In our case the objective is:
-$$
+```math
 \text{Maximise: } \sum_{i=1}^N \alpha_i - \sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j x_i^T x_j \\
 \text{OR} \\ 
 \text{Minimise: }\sum_{i=1}^N \sum_{j=1}^N \alpha_i \alpha_j y_i y_j x_i^T x_j - \sum_{i=1}^N \alpha_i \\
-$$
+```
 
 The substitutions to be made to fit the QP form are:
 * $P =  y_i y_j x_i^T x_j$ to get the $\frac{1}{2} \alpha^T P \alpha$.
-* $q=-1 to get q^T \alpha part as the second part of our Lagrangian equation is \sum_{i=1}^N \alpha_i$.
+* $q=-1$ to get q^T \alpha part as the second part of our Lagrangian equation is $\sum_{i=1}^N \alpha_i$.
 * $A \alpha = b$, here we can take $\sum_{i=1}^N \alpha_i y_i = 0$. Hence, $A = y$ and $b = 0$.
-* $G \text{and} h$ are concerned with soft margins. To maintain equalities of $\alpha_i \geq 0 \text{or} -\alpha \leq 0$ amd $\alpha \leq C$, $G$ and $h$ are taken as stacked $I \text{and} -I$ matrices and stacked 0s and Cs respectively. 
+* $G \text{and} h$ are concerned with soft margins. To maintain equalities of $\alpha_i \geq 0 \text{ or } -\alpha \leq 0$ amd $\alpha \leq C$, $G$ and $h$ are taken as stacked $I \text{ and } -I$ matrices and stacked 0s and Cs respectively. 
 
 Links:
 https://github.com/eriklindernoren/ML-From-Scratch/blob/master/mlfromscratch/supervised_learning/support_vector_machine.py 
