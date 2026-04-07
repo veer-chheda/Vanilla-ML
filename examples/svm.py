@@ -13,7 +13,16 @@ y = df['class'].to_numpy()
 
 X = standardize(X)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-svm = SVM(lambda_param=0.01, learning_rate=0.001, n_iterations=1000)
+svm = SVM(lambda_param=0.01, learning_rate=0.001, n_iterations=10)
+svm.fit(X_train, y_train)
+preds = svm.predict(X_test)
+y_test_converted = np.where(y_test <= 0, -1, 1)
+
+final_accuracy = accuracy(y_test_converted, preds)
+print(final_accuracy)
+
+
+svm = SVM(lambda_param=0.01, learning_rate=0.001, n_iterations=10, form='dual')
 svm.fit(X_train, y_train)
 preds = svm.predict(X_test)
 y_test_converted = np.where(y_test <= 0, -1, 1)
