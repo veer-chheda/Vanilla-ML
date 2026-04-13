@@ -101,7 +101,7 @@ a_2 \\
 \end{aligned}
 ```
 
-However, the output layer makes use of activations functions as thresholds to obtain outputs. For binary classification, it could be sigmoid whereas for multiclass classification, we use softmax function $\sigma{(z)_i} = \frac{e^{z_i}}{\sum_{i=1}^N e^{z_j}}$. For regression problems, we use the identity function $f(x) = x$
+However, the output layer makes use of activations functions as thresholds to obtain outputs. For binary classification, it could be sigmoid whereas for multiclass classification, we use softmax function $\sigma(z_i) = \frac{e^{z_i}}{\sum_{i=1}^N e^{z_j}}$. For regression problems, we use the identity function $f(x) = x$
 
 We also have cost functions or loss functions or objective functions (they have different meanings theoretically, but they refer to the same thing) that are used to measure the fit or "goodness" of a network's performance. Example: mean squared error, binary cross entropy, etc.
 
