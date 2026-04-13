@@ -10,15 +10,15 @@ class KMeans:
             for j in range(X.shape[0]):
                 min_distance = float('inf')
                 min_cluster = None
-                for k in range(clusters.shape[0]):
-                    distance = euclidean_distance(clusters[k], X[j])
+                for l in range(clusters.shape[0]):
+                    distance = euclidean_distance(clusters[l], X[j])
                     if distance < min_distance:
                         min_distance = distance
-                        min_cluster = k
+                        min_cluster = l
                 cluster_idx[min_cluster].append(j)
-            for k in range(clusters.shape[0]):
-                if len(cluster_idx[k]) != 0:
-                    clusters[k] = np.sum(X[cluster_idx[k]])/len(cluster_idx[k])
+            for l in range(clusters.shape[0]):
+                if len(cluster_idx[l]) != 0:
+                    clusters[l] = np.sum(X[cluster_idx[l]])/len(cluster_idx[l])
         return clusters
     
     def test(self):

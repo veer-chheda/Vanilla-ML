@@ -3,9 +3,9 @@ import cvxopt
 
 class SVM:
     def __init__(self, lambda_param=0.01, learning_rate=0.001, n_iterations=100, form='primal', kernel='linear', C=1.0):
-        self.lambda_param = 0.01
-        self.learning_rate = 0.001
-        self.n_iterations = 100
+        self.lambda_param = lambda_param
+        self.learning_rate = learning_rate
+        self.n_iterations = n_iterations
         self.weights = None
         self.bias = None
         self.form = form
