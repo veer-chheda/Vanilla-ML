@@ -80,9 +80,9 @@ w_{12}x_1 + w_{22}x_2 + w_{32}x_3 + b_2 \\
 
 This brings me to the concept of activation functions. Activation functions are equations essentially used to determine whether a neuron should activate or not. By activating, a neuron passes some information forward that depends on the type of activation function used. This introduces non-linearity which enables the network to learn complex patterns.  
 Examples of activation functions are:
-* Sigmoid: $\sigma(z) = \frac{1}{1 + e^-z}$
+* Sigmoid: $\sigma(z) = \frac{1}{1 + e^{-z}}$
 * ReLU (Rectified Linear Unit): $ReLU(z) = \max(0, z)$
-* Tanh (Hyperbolic tangent): $tanh(z) = \frac{e^z - e^-z}{e^z + e^-z}$  
+* Tanh (Hyperbolic tangent): $tanh(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}}$  
 
 So passing the $z$ vector through an activation function results into an activation which is basically the output of the hidden unit.
 ```math
@@ -110,8 +110,65 @@ We also have cost functions or loss functions or objective functions (they have 
 If we pass the output of the hidden layer (i.e. it's activation that we derived before) into the threshold function (let's say sigmoid), we get the output $\hat{y}$.
 
 ## Backward Propagation
+Back propagation is the process of weight updates according to the resulting error. We propagate the weight updates backward, from the output layer to the input layer. The basic idea is:
+* The error depends on the output function's output $a$ (in our case, the output function is sigmoid).
+* Value of the sigmoid function depends on the value of the activations $z$.
+* Value of $z$ depends on the weights $w$ from the previous layer.
 
+Thus, we can identify a chain. Now, we must find the answer to:
+* How does the error change when we change activation output $a$.
+* How does activation output $a$ change when we change the input activation $z$.
+* How does the input activation $z$ change with a small change in the weights $w$.
 
+This can be summarized by the chain rule from calculus:
+```math
+ \frac{\partial E} {\partial w^L} = \frac{\partial E} {\partial a^L} \times \frac{\partial a^L} {\partial z^L} \times \frac{\partial z^L} {\partial w^L} 
+ ```
+
+Now let's break this down from left to right. To make it simpler for understanding the derivation, let's remove the layered generalization (not consider the superscript $L$). For the outermost layer, $a$ is essentially $\hat{y}$.
+
+```math
+\begin{aligned}
+E &= -(y \ln(\hat{y}) + (1 - y) \ln(1-\hat{y})) \\
+\frac{\partial E} {\partial \hat{y}} &= -\left(\frac{y}{\hat{y}} - \frac{1-y}{1-\hat{y}}\right) \\
+&= \frac{\hat{y}-y}{\hat{y}(1-\hat{y})} \\[15pt]
+&\text{let's plug back the generalized notation:} \\
+\frac{\partial E} {\partial a^L} &= \frac{a^L-y}{a^L(1-a^L)}
+\end{aligned}
+```
+
+Now the second term,
+
+```math
+\begin{aligned}
+\hat{y} = \sigma{(z)} &= \frac{1}{1 + e^{-z}} \\[10pt]
+\frac{\partial \hat{y}} {\partial z} &= \frac{\partial \sigma{(z)}} {\partial z} \\
+&= \frac {e^{-z}} {(1 + e^{-z})^2} \\
+&= \frac {e^{-z}} {(1 + e^{-z})} \times \frac {1} {(1 + e^{-z})} \\
+&= (1 - \sigma(z)) \sigma(z)  \qquad \left(\text{since } 1 - \sigma(z) = 1 - \frac{1}{1 + e^{-z}} = \frac{e^{-z}}{1+e^{-z}}\right) \\[10pt]
+&\text{so the generalized form becomes:} \\
+\frac{\partial a^L} {\partial z^L} &= a^L (1 - a^L)
+\end{aligned}
+```
+
+And for the last term,
+
+```math
+\begin{aligned}
+z &= w \cdot x + b \\
+\frac{\partial z} {\partial w} &= x \\[10pt]
+&\text{or can be generalized as:} \\
+\frac{\partial z^L} {\partial w^L} &= a^{L-1}
+\end{aligned}
+```
+
+Altogether, 
+```math
+\begin{aligned}
+\frac{\partial E} {\partial w^L} &= \frac{a^L-y}{a^L(1-a^L)} \times a^L (1 - a^L) \times a^{L-1} \\
+&= (a^L-y) \times a^{L-1} \\
+\end{aligned}
+```
 
 https://com-cog-book.github.io/com-cog-book/features/multilayer-perceptron.html
 https://www.datacamp.com/tutorial/multilayer-perceptrons-in-machine-learning
