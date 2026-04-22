@@ -170,6 +170,45 @@ Altogether,
 \end{aligned}
 ```
 
-https://com-cog-book.github.io/com-cog-book/features/multilayer-perceptron.html
-https://www.datacamp.com/tutorial/multilayer-perceptrons-in-machine-learning
+Similarly for the bias term,
+```math
+\begin{aligned}
+\frac{\partial E} {\partial b^L} &= \frac{\partial E} {\partial a^L} \times \frac{\partial a^L} {\partial z^L} \times \frac{\partial z^L} {\partial b^L} \\
+&= a^L-y
+\end{aligned}
+```
+
+Now let's see how the error propagates weight updates from the hidden layer to the input layer.
+```math
+\begin{aligned}
+\frac{\partial E} {\partial w^{L-1}} &= \frac{\partial E} {\partial a^L} \times \frac{\partial a^L} {\partial z^L} \times \frac{\partial z^L} {\partial a^{L-1}} \times \frac{\partial a^{L-1}} {\partial z^{L-1}}  \times \frac{\partial z^{L-1}} {\partial w^{L-1}} \\
+&= (a^L-y) \times w^L \times a^{L-1}(1-a^{L-1}) \times a^{L-2} \\[10pt]
+&\text{this is generalised as:} \\
+\delta_L &= (a^L-y) \times w^L \times a^{L-1}(1-a^{L-1}) \\
+\frac{\partial E} {\partial w^{L-1}} &= \delta_L . a^{L-2} \qquad \text{ for the input layer } a^{L-2} \text{ is } x \text{.} \\
+\end{aligned}
+```
+
+This is how backpropagation works. But how exactly are the weights updated? This is where gradient descent comes into picture.
+```math
+w_{new} = w_{old} - \eta \frac{\partial E} {\partial w^{L}}
+```
+Let's not forget the bias term. The gradient stays the same and the bias update becomes:
+```math
+\begin{aligned}
+\delta_L &= (a^L-y) \times w^L \times a^{L-1}(1-a^{L-1}) \\
+b_{new} = b_{old} - \eta \frac{\partial E} {\partial b^{L}}
+\end{aligned}
+```
+
+## Summary
+* Initialize weights and biases randomly.
+* Perform a forward pass.
+* Calculate loss.
+* Perform backward pass.
+* Update weights and biases.
+* Repeat for $n$ epochs.
+
+https://com-cog-book.github.io/com-cog-book/features/multilayer-perceptron.html  
+https://www.datacamp.com/tutorial/multilayer-perceptrons-in-machine-learning  
 https://www.cs.toronto.edu/~rgrosse/courses/csc321_2018/readings/L05%20Multilayer%20Perceptrons.pdf
