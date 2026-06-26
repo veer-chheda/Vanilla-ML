@@ -1,5 +1,9 @@
 import numpy as np
 import math
 
-def CrossEntropy(y, y_pred):
-    return - y * np.log(y_pred) - (1 - y) * np.log(1 - y_pred)
+class CrossEntropy:
+    def loss(self, y, y_pred):
+        return - np.sum(y * np.log(y_pred)) / y.shape[0]
+    
+    def gradient(self, y, y_pred):
+        return - (y - y_pred) / y.shape[0]
