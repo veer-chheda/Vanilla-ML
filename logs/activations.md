@@ -13,40 +13,40 @@ This is why we use non-linear activations:
 - Tanh:
     * Function: $\tanh(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}}$. Output can be either -1 or 1. As you can see, the output is 0-centered. This allows for balanced weight updates as compared to sigmoid. However, computing the extra $e^z$ term is more computationally expensive than sigmoid.
     * Gradient:  
-    ```math
-    \begin{aligned}
-    \tanh(x) &= \frac{\sinh(x)}{\cosh(x)} \\
-    \frac{d\tanh(x)} {dx} &=  \frac {d \frac{\sinh(x)}{\cosh(x)}} {dx} \\
-    \text{ using quotient rule } \\
-    &= \frac{\sinh'(x)\cosh(x) - \sinh(x)\cosh'(x)}{\cosh^2(x)} \\
-    &= \frac{\cosh^2(x) - \sinh^2(x)}{\cosh^2(x)}        \dots  (\sinh'(x) = \cosh(x) \text{ and } \cosh'(x) = \sinh(x)) \\
-    &= \frac{1}{\cosh^2(x)}    \dots (\cosh^2(x) - \sinh^2(x) = 1) \\
-    &= \text{sech}^2(x) \\
-    &= 1 - \tanh^2(x)   \dots   (\text{sech}^2(x) = 1 - \tanh^2(x))
-    \end{aligned}
-    ```
+```math
+\begin{aligned}
+\tanh(x) &= \frac{\sinh(x)}{\cosh(x)} \\
+\frac{d\tanh(x)} {dx} &=  \frac {d \frac{\sinh(x)}{\cosh(x)}} {dx} \\
+\text{ using quotient rule } \\
+&= \frac{\sinh'(x)\cosh(x) - \sinh(x)\cosh'(x)}{\cosh^2(x)} \\
+&= \frac{\cosh^2(x) - \sinh^2(x)}{\cosh^2(x)}        \dots  (\sinh'(x) = \cosh(x) \text{ and } \cosh'(x) = \sinh(x)) \\
+&= \frac{1}{\cosh^2(x)}    \dots (\cosh^2(x) - \sinh^2(x) = 1) \\
+&= \text{sech}^2(x) \\
+&= 1 - \tanh^2(x)   \dots   (\text{sech}^2(x) = 1 - \tanh^2(x))
+\end{aligned}
+```
 
 - ReLU:
     * Function: $\text{ReLU}(z) = \max(0, z)$. Range is $[0, \infty)$
     * Gradient:   
-    ```math
-    \text{ReLU}'(z) = 
-    \begin{cases}
-    0 & z \leq 0 \\
-    1 & z > 0
-    \end{cases}
-    ```
+```math
+\text{ReLU}'(z) = 
+\begin{cases}
+0 & z \leq 0 \\
+1 & z > 0
+\end{cases}
+```
 
 - LeakyReLU:
     * Function: $\text{LeakyReLU}(z) = \max(\alpha z, z)$. Range is $(-\infty, \infty)$. Leaky ReLU was introduced to solve the problem of dying ReLU where the neurons would die if the activation is negative. Instead, LeakyReLU allows a small negative activation to pass through the neuron, so it's weights are updated continuously.
     * Gradient:    
-    ```math
-    \text{LeakyReLU}'(z) = 
-    \begin{cases}
-    \alpha & z \leq 0 \\
-    1 & z > 0
-    \end{cases}
-    ```
+```math
+\text{LeakyReLU}'(z) = 
+\begin{cases}
+\alpha & z \leq 0 \\
+1 & z > 0
+\end{cases}
+```
 
 - Softmax:
     * Function: $\sigma(z_i) = \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}}$. Output is a vector of probabilities of size N. Each term corresponds to the probability of the respective class such that sum of all the terms is always 1.
@@ -98,11 +98,11 @@ This is why we use non-linear activations:
 
     If you map out this derivative for all inputs and outputs, it forms a Jacobian matrix:
 
-    ```math
-    J = \begin{bmatrix} 
-    \sigma(z_1)(1-\sigma(z_1)) & -\sigma(z_1)\sigma(z_2) & \dots & -\sigma(z_1)\sigma(z_k) \\
-    -\sigma(z_2)\sigma(z_1) & \sigma(z_2)(1-\sigma(z_2)) & \dots & -\sigma(z_2)\sigma(z_k) \\
-    \vdots & \vdots & \ddots & \vdots \\
-    -\sigma(z_k)\sigma(z_1) & -\sigma(z_k)\sigma(z_2) & \dots & \sigma(z_k)(1-\sigma(z_k))
-    \end{bmatrix}
-    ```
+```math
+J = \begin{bmatrix} 
+\sigma(z_1)(1-\sigma(z_1)) & -\sigma(z_1)\sigma(z_2) & \dots & -\sigma(z_1)\sigma(z_k) \\
+-\sigma(z_2)\sigma(z_1) & \sigma(z_2)(1-\sigma(z_2)) & \dots & -\sigma(z_2)\sigma(z_k) \\
+\vdots & \vdots & \ddots & \vdots \\
+-\sigma(z_k)\sigma(z_1) & -\sigma(z_k)\sigma(z_2) & \dots & \sigma(z_k)(1-\sigma(z_k))
+\end{bmatrix}
+```
