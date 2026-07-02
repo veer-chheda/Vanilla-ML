@@ -57,46 +57,46 @@ This is why we use non-linear activations:
 &= \frac{e^{z_i}} {S}     \dots   (S = \sum_{j=1}^N e^{z_j}) \\
 \end{aligned}
 ```
-    We want to find the partial derivative of the output $S_i$ with respect to the input logit $z_k$, denoted as $\frac{\partial S_i}{\partial z_k}$.   
-    Because $S_i$ depends on all $z$, we must evaluate two separate cases using the **Quotient Rule**:   
-    $$\left(\frac{f}{g}\right)' = \frac{f'g - fg'}{g^2}$$   
- 
-    ---
-    ### Case 1: When $i == k$ (Diagonal terms)   
-    - $f = e^{z_i} \implies f' = e^{z_i}$   
-    - $g = S \implies g' = \frac{\partial}{\partial z_k}(\sum_{j=1}^{N} e^{z_j}) = e^{z_i}$    
+We want to find the partial derivative of the output $S_i$ with respect to the input logit $z_k$, denoted as $\frac{\partial S_i}{\partial z_k}$.   
+Because $S_i$ depends on all $z$, we must evaluate two separate cases using the **Quotient Rule**:   
+$$\left(\frac{f}{g}\right)' = \frac{f'g - fg'}{g^2}$$   
 
-    $\text{Applying the quotient rule:}$    
-    $$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{(e^{z_i} \cdot S) - (e^{z_i} \cdot e^{z_i})}{S^2}$$    
+---
+### Case 1: When $i == k$ (Diagonal terms)   
+- $f = e^{z_i} \implies f' = e^{z_i}$   
+- $g = S \implies g' = \frac{\partial}{\partial z_k}(\sum_{j=1}^{N} e^{z_j}) = e^{z_i}$    
 
-    $\text{Split the fraction: }$   
-    $$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{e^{z_i} \cdot S}{S^2} - \frac{e^{z_i} \cdot e^{z_i}}{S^2}$$   
+$\text{Applying the quotient rule:}$    
+$$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{(e^{z_i} \cdot S) - (e^{z_i} \cdot e^{z_i})}{S^2}$$    
 
-    $\text{Simplify by substituting back }\sigma(z_k) = \frac{e^{z_i}}{S}$:   
-    $$\frac{\partial \sigma(z_i)}{\partial z_k} = \left(\frac{e^{z_i}}{S}\right) - \left(\frac{e^{z_i}}{S}\right)\left(\frac{e^{z_i}}{S}\right)$$    
-    $$\frac{\partial \sigma(z_i)}{\partial z_k} = \sigma(z_i) - \sigma(z_i)^2 = \sigma(z_i)(1 - \sigma(z_i))$$    
+$\text{Split the fraction: }$   
+$$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{e^{z_i} \cdot S}{S^2} - \frac{e^{z_i} \cdot e^{z_i}}{S^2}$$   
 
-    ---
-    ### Case 2: When $i \neq k$ (Rest of the terms)
+$\text{Simplify by substituting back }\sigma(z_k) = \frac{e^{z_i}}{S}$:   
+$$\frac{\partial \sigma(z_i)}{\partial z_k} = \left(\frac{e^{z_i}}{S}\right) - \left(\frac{e^{z_i}}{S}\right)\left(\frac{e^{z_i}}{S}\right)$$    
+$$\frac{\partial \sigma(z_i)}{\partial z_k} = \sigma(z_i) - \sigma(z_i)^2 = \sigma(z_i)(1 - \sigma(z_i))$$    
 
-    We are differentiating $\sigma(z_i)$ with respect to a different input $z_k$.   
+---
+### Case 2: When $i \neq k$ (Rest of the terms)
 
-    - $f = e^{z_i} \implies f' = 0$ (since $z_i$ is treated as a constant relative to $z_k$)   
-    - $g = S \implies g' = \frac{\partial}{\partial z_k}(\sum_{j=1}^{K} e^{z_j}) = e^{z_k}$   
+We are differentiating $\sigma(z_i)$ with respect to a different input $z_k$.   
 
-    Applying the quotient rule:   
-    $$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{(0 \cdot S) - (e^{z_i} \cdot e^{z_k})}{S^2}$$   
+- $f = e^{z_i} \implies f' = 0$ (since $z_i$ is treated as a constant relative to $z_k$)   
+- $g = S \implies g' = \frac{\partial}{\partial z_k}(\sum_{j=1}^{K} e^{z_j}) = e^{z_k}$   
 
-    $$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{- e^{z_i} e^{z_k}}{S^2}$$   
+Applying the quotient rule:   
+$$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{(0 \cdot S) - (e^{z_i} \cdot e^{z_k})}{S^2}$$   
 
-    Separate the terms into individual softmax forms:   
-    $$\frac{\partial \sigma(z_i)}{\partial z_k} = - \left(\frac{e^{z_i}}{S}\right) \left(\frac{e^{z_k}}{S}\right)$$   
+$$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{- e^{z_i} e^{z_k}}{S^2}$$   
 
-    $$\frac{\partial \sigma(z_i)}{\partial z_k} = - \sigma(z_i) \sigma(z_k)$$    
+Separate the terms into individual softmax forms:   
+$$\frac{\partial \sigma(z_i)}{\partial z_k} = - \left(\frac{e^{z_i}}{S}\right) \left(\frac{e^{z_k}}{S}\right)$$   
 
-    ---
+$$\frac{\partial \sigma(z_i)}{\partial z_k} = - \sigma(z_i) \sigma(z_k)$$    
 
-    If you map out this derivative for all inputs and outputs, it forms a Jacobian matrix:
+---
+
+If you map out this derivative for all inputs and outputs, it forms a Jacobian matrix:
 
 ```math
 J = \begin{bmatrix} 
