@@ -51,48 +51,48 @@ This is why we use non-linear activations:
 - Softmax:
     * Function: $\sigma(z_i) = \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}}$. Output is a vector of probabilities of size N. Each term corresponds to the probability of the respective class such that sum of all the terms is always 1.
     * Gradient:   
-```math
-\begin{aligned}
-\sigma(z_i) &= \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}} \\
-&= \frac{e^{z_i}} {S}     \dots   (S = \sum_{j=1}^N e^{z_j}) \\
-\end{aligned}
-```
-We want to find the partial derivative of the output $S_i$ with respect to the input logit $z_k$, denoted as $\frac{\partial S_i}{\partial z_k}$.   
-Because $S_i$ depends on all $z$, we must evaluate two separate cases using the **Quotient Rule**:   
-$$\left(\frac{f}{g}\right)' = \frac{f'g - fg'}{g^2}$$   
+    $$$
+    \begin{aligned}
+    \sigma(z_i) &= \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}} \\
+    &= \frac{e^{z_i}} {S}     \dots   (S = \sum_{j=1}^N e^{z_j}) \\
+    \end{aligned}
+    $$$
+    We want to find the partial derivative of the output $S_i$ with respect to the input logit $z_k$, denoted as $\frac{\partial S_i}{\partial z_k}$.   
+    Because $S_i$ depends on all $z$, we must evaluate two separate cases using the Quotient Rule:   
+    $$\left(\frac{f}{g}\right)' = \frac{f'g - fg'}{g^2}$$   
 
----
-### Case 1: When $i == k$ (Diagonal terms)   
-- $f = e^{z_i} \implies f' = e^{z_i}$   
-- $g = S \implies g' = \frac{\partial}{\partial z_k}(\sum_{j=1}^{N} e^{z_j}) = e^{z_i}$    
+    ---
+    ### Case 1: When $i == k$ (Diagonal terms)   
+    - $f = e^{z_i} \implies f' = e^{z_i}$   
+    - $g = S \implies g' = \frac{\partial}{\partial z_k}(\sum_{j=1}^{N} e^{z_j}) = e^{z_i}$    
 
-$\text{Applying the quotient rule:}$    
-$$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{(e^{z_i} \cdot S) - (e^{z_i} \cdot e^{z_i})}{S^2}$$    
+    $\text{Applying the quotient rule:}$    
+    $$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{(e^{z_i} \cdot S) - (e^{z_i} \cdot e^{z_i})}{S^2}$$    
 
-$\text{Split the fraction: }$   
-$$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{e^{z_i} \cdot S}{S^2} - \frac{e^{z_i} \cdot e^{z_i}}{S^2}$$   
+    $\text{Split the fraction: }$   
+    $$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{e^{z_i} \cdot S}{S^2} - \frac{e^{z_i} \cdot e^{z_i}}{S^2}$$   
 
-$\text{Simplify by substituting back }\sigma(z_k) = \frac{e^{z_i}}{S}$:   
-$$\frac{\partial \sigma(z_i)}{\partial z_k} = \left(\frac{e^{z_i}}{S}\right) - \left(\frac{e^{z_i}}{S}\right)\left(\frac{e^{z_i}}{S}\right)$$    
-$$\frac{\partial \sigma(z_i)}{\partial z_k} = \sigma(z_i) - \sigma(z_i)^2 = \sigma(z_i)(1 - \sigma(z_i))$$    
+    $\text{Simplify by substituting back }\sigma(z_k) = \frac{e^{z_i}}{S}$:   
+    $$\frac{\partial \sigma(z_i)}{\partial z_k} = \left(\frac{e^{z_i}}{S}\right) - \left(\frac{e^{z_i}}{S}\right)\left(\frac{e^{z_i}}{S}\right)$$    
+    $$\frac{\partial \sigma(z_i)}{\partial z_k} = \sigma(z_i) - \sigma(z_i)^2 = \sigma(z_i)(1 - \sigma(z_i))$$    
 
----
-### Case 2: When $i \neq k$ (Rest of the terms)
+    ---
+    ### Case 2: When $i \neq k$ (Rest of the terms)
 
-We are differentiating $\sigma(z_i)$ with respect to a different input $z_k$.   
+    We are differentiating $\sigma(z_i)$ with respect to a different input $z_k$.   
 
-- $f = e^{z_i} \implies f' = 0$ (since $z_i$ is treated as a constant relative to $z_k$)   
-- $g = S \implies g' = \frac{\partial}{\partial z_k}(\sum_{j=1}^{K} e^{z_j}) = e^{z_k}$   
+    - $f = e^{z_i} \implies f' = 0$ (since $z_i$ is treated as a constant relative to $z_k$)   
+    - $g = S \implies g' = \frac{\partial}{\partial z_k}(\sum_{j=1}^{K} e^{z_j}) = e^{z_k}$   
 
-Applying the quotient rule:   
-$$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{(0 \cdot S) - (e^{z_i} \cdot e^{z_k})}{S^2}$$   
+    Applying the quotient rule:   
+    $$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{(0 \cdot S) - (e^{z_i} \cdot e^{z_k})}{S^2}$$   
 
-$$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{- e^{z_i} e^{z_k}}{S^2}$$   
+    $$\frac{\partial \sigma(z_i)}{\partial z_k} = \frac{- e^{z_i} e^{z_k}}{S^2}$$   
 
-Separate the terms into individual softmax forms:   
-$$\frac{\partial \sigma(z_i)}{\partial z_k} = - \left(\frac{e^{z_i}}{S}\right) \left(\frac{e^{z_k}}{S}\right)$$   
+    Separate the terms into individual softmax forms:   
+    $$\frac{\partial \sigma(z_i)}{\partial z_k} = - \left(\frac{e^{z_i}}{S}\right) \left(\frac{e^{z_k}}{S}\right)$$   
 
-$$\frac{\partial \sigma(z_i)}{\partial z_k} = - \sigma(z_i) \sigma(z_k)$$    
+    $$\frac{\partial \sigma(z_i)}{\partial z_k} = - \sigma(z_i) \sigma(z_k)$$    
 
 ---
 
