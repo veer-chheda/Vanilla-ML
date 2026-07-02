@@ -51,7 +51,6 @@ This is why we use non-linear activations:
 - Softmax:
     * Function: $\sigma(z_i) = \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}}$. Output is a vector of probabilities of size N. Each term corresponds to the probability of the respective class such that sum of all the terms is always 1.
     * Gradient:   
-
     $$\sigma(z_i) = \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}}$$   
     $$ = \frac{e^{z_i}} {S}     \dots   (S = \sum_{j=1}^N e^{z_j})$$   
     
