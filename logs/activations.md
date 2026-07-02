@@ -51,12 +51,10 @@ This is why we use non-linear activations:
 - Softmax:
     * Function: $\sigma(z_i) = \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}}$. Output is a vector of probabilities of size N. Each term corresponds to the probability of the respective class such that sum of all the terms is always 1.
     * Gradient:   
-    $$$
-    \begin{aligned}
-    \sigma(z_i) &= \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}} \\
-    &= \frac{e^{z_i}} {S}     \dots   (S = \sum_{j=1}^N e^{z_j}) \\
-    \end{aligned}
-    $$$
+
+    $$\sigma(z_i) &= \frac{e^{z_i}}{\sum_{j=1}^N e^{z_j}} \\$$
+    $$= \frac{e^{z_i}} {S}     \dots   (S = \sum_{j=1}^N e^{z_j}) \\$$
+    
     We want to find the partial derivative of the output $S_i$ with respect to the input logit $z_k$, denoted as $\frac{\partial S_i}{\partial z_k}$.   
     Because $S_i$ depends on all $z$, we must evaluate two separate cases using the Quotient Rule:   
     $$\left(\frac{f}{g}\right)' = \frac{f'g - fg'}{g^2}$$   
